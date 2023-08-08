@@ -1,8 +1,11 @@
 package ru.hogwarts.school.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.hogwarts.school.exceptions.NoObjectInRepoException;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
+import ru.hogwarts.school.repo.FacultyRepo;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -12,35 +15,30 @@ import java.util.stream.Collectors;
 
 @Service
 public class FacultyService {
-    private HashMap<Integer, Faculty> faculties;
-    private int idCounter;
+final
+FacultyRepo facultyRepo;
 
-    public FacultyService() {
-        this.faculties = new HashMap<>();
-        this.idCounter = 0;
+    public FacultyService(FacultyRepo facultyRepo) {
+        this.facultyRepo = facultyRepo;
     }
 
     public Faculty addFaculty(Faculty faculty) {
-        idCounter++;
-        faculty.setId(idCounter);
-        return faculties.put(idCounter, faculty);
+        return facultyRepo.save(faculty);
     }
 
     public Faculty getFaculty(int id) {
-        return faculties.get(id);
-
+        return facultyRepo.findById(id).orElseThrow(() -> new NoObjectInRepoException("No faculty found"));
     }
 
-    public Faculty removeFaculty(int id) {
-        return faculties.remove(id);
+    public void removeFaculty(int id) {
+        facultyRepo.deleteById(id);
     }
 
-    public Faculty editFaculty(int id, Faculty faculty) {
-        return faculties.put(id, faculty);
+    public Faculty editFaculty(Faculty faculty) {
+        return facultyRepo.save(faculty);
     }
 
     public Collection<Faculty> getByColor(String color) {
-        return faculties.values().stream().filter(faculty -> faculty.getColor().equals(color)).collect(Collectors.toSet());
+        return facultyRepo.findByColorLike(color);
     }
-
 }

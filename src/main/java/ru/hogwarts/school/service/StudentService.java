@@ -1,9 +1,12 @@
 package ru.hogwarts.school.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import ru.hogwarts.school.exceptions.NoObjectInRepoException;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
+import ru.hogwarts.school.repo.StudentRepo;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -11,34 +14,30 @@ import java.util.stream.Collectors;
 
 @Service
 public class StudentService {
-    private HashMap<Integer, Student> students;
-    private int idCounter;
+    final
+    StudentRepo studentRepo;
 
-    public StudentService() {
-        this.students = new HashMap<>();
-        this.idCounter = 0;
+    public StudentService(StudentRepo studentRepo) {
+        this.studentRepo = studentRepo;
     }
 
     public Student addStudent(Student student) {
-        idCounter++;
-        student.setId(idCounter);
-        return students.put(idCounter, student);
+        return studentRepo.save(student);
     }
 
-    public Student getStudent(int id) {
-        return students.get(id);
-
+    public Student getStudent(int id){
+        return studentRepo.findById(id).orElseThrow(() -> new NoObjectInRepoException("No student found"));
     }
 
-    public Student removeStudent(int id) {
-        return students.remove(id);
+    public void removeStudent(int id) {
+        studentRepo.deleteById(id);
     }
 
-    public Student editStudent(int id, Student student) {
-        return students.put(id, student);
+    public Student editStudent(Student student) {
+        return studentRepo.save(student);
     }
 
     public Collection<Student> getByAge(int age) {
-        return students.values().stream().filter(student -> student.getAge() == age).collect(Collectors.toSet());
+        return studentRepo.findByAge(age);
     }
 }

@@ -1,12 +1,15 @@
 package ru.hogwarts.school.controller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.hogwarts.school.exceptions.NoObjectInRepoException;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.service.StudentService;
 
 import java.util.Collection;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("student")
@@ -27,8 +30,8 @@ public class StudentController {
 
     @GetMapping("{id}")
     public ResponseEntity<Student> get(@PathVariable int id) {
-        if (id > 0) {
-            return ResponseEntity.ok(studentService.getStudent(id));
+        if (id >= 0) {
+                return ResponseEntity.ok(studentService.getStudent(id));
         }
         return ResponseEntity.notFound().build();
     }
@@ -37,17 +40,19 @@ public class StudentController {
     public ResponseEntity<Student> edit(@PathVariable int id, @RequestBody Student student) {
         if (id > 0 && student != null) {
             student.setId(id);
-            return ResponseEntity.ok(studentService.editStudent(id, student));
+            return ResponseEntity.ok(studentService.editStudent(student));
         }
         return ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Student> delete(@PathVariable int id) {
-        if (id > 0) {
-            return ResponseEntity.ok(studentService.removeStudent(id));
+    public void delete(@PathVariable int id) {
+        try {
+            studentService.removeStudent(id);
+        } catch (RuntimeException e) {
+            throw new NoObjectInRepoException(e);
         }
-        return ResponseEntity.notFound().build();
+
     }
 
     @GetMapping("age/{age}")
