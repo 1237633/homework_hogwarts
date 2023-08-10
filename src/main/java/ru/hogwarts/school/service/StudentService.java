@@ -40,4 +40,13 @@ public class StudentService {
     public Collection<Student> getByAge(int age) {
         return studentRepo.findByAge(age);
     }
+
+    public Collection<Student> getByAge(int minAge, int maxAge) {
+        return studentRepo.findByAgeBetween(minAge, maxAge);
+    }
+
+    public Faculty getFaculty(int id) {
+        return studentRepo.findById(id).orElseThrow(() -> new NoObjectInRepoException("No student found")).getFaculty();
+    }
 }
+
