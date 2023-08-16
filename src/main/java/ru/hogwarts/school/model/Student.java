@@ -1,6 +1,9 @@
 package ru.hogwarts.school.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -12,9 +15,8 @@ public class Student {
     private int id;
     private int age;
     private String name;
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "faculty_id")
-    @JsonIgnore
+    @ManyToOne()
     private Faculty faculty;
 
     public Faculty getFaculty() {

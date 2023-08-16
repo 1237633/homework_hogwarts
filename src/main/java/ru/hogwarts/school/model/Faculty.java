@@ -1,7 +1,7 @@
 package ru.hogwarts.school.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.springframework.boot.autoconfigure.jdbc.JdbcTemplateAutoConfiguration;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -14,8 +14,8 @@ public class Faculty {
     private int id;
     private String name;
     private String color;
-    @OneToMany(mappedBy = "faculty")
     @JsonIgnore
+    @OneToMany(mappedBy = "faculty", fetch = FetchType.LAZY)
     private Set<Student> students;
 
     public int getId() {

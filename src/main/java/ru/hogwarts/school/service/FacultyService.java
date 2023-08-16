@@ -39,7 +39,7 @@ FacultyRepo facultyRepo;
     }
 
     public Collection<Faculty> getByColor(String color) {
-        return facultyRepo.findByColorLike(color);
+        return facultyRepo.findByColorContainingIgnoreCase(color);
     }
 
     public Collection<Faculty> getByColorOrName(String color, String name) {
@@ -47,6 +47,6 @@ FacultyRepo facultyRepo;
     }
 
     public Collection<Student> getStudents(int id) {
-       return facultyRepo.findById(id).orElseThrow(() -> new NoObjectInRepoException("No faculty found")).getStudents();
+       return getFaculty(id).getStudents();
     }
 }

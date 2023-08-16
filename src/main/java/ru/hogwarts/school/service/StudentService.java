@@ -46,7 +46,7 @@ public class StudentService {
     }
 
     public Faculty getFaculty(int id) {
-        return studentRepo.findById(id).orElseThrow(() -> new NoObjectInRepoException("No student found")).getFaculty();
+        return getStudent(id).getFaculty();
     }
 }
 
