@@ -70,7 +70,7 @@ class FacultyServiceTest {
 
     @Test
     void getByColor() {
-        when(facultyRepoMock.findByColorLike("Green")).thenReturn(List.of(testFaculty));
+        when(facultyRepoMock.findByColorContainingIgnoreCase("Green")).thenReturn(List.of(testFaculty));
         Assertions.assertTrue(facultyService.getByColor("Green").stream().allMatch(e -> e.getColor().equals("Green")));
     }
 }
