@@ -33,13 +33,13 @@ class FacultyControllerTest {
 
     @Test
     @Order(3)
-    void getStudent() throws Exception {
+    void getFaculty() throws Exception {
         Assertions.assertNotNull(this.testRestTemplate.getForObject(url, Faculty.class));
     }
 
     @Test
     @Order(2)
-    void addStudent() throws Exception {
+    void addFaculty() throws Exception {
         Faculty test = new Faculty();
         test.setName("Java");
         test.setColor("Black");
@@ -52,7 +52,7 @@ class FacultyControllerTest {
 
     @Test
     @Order(4)
-    void editStudent() throws Exception {
+    void editFaculty() throws Exception {
         Faculty test = new Faculty();
         test.setName("C++");
         test.setColor("Transparent");
@@ -62,7 +62,7 @@ class FacultyControllerTest {
 
     @Test
     @Order(5)
-    void deleteStudent() throws Exception {
+    void deleteFaculty() throws Exception {
         System.out.println(id);
         System.out.println(url);
         this.testRestTemplate.delete(url);
