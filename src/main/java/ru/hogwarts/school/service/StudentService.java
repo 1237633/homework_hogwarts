@@ -1,7 +1,5 @@
 package ru.hogwarts.school.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.exceptions.NoObjectInRepoException;
 import ru.hogwarts.school.model.Faculty;
@@ -9,8 +7,8 @@ import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repo.StudentRepo;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.stream.Collectors;
+import java.util.List;
+
 
 @Service
 public class StudentService {
@@ -47,6 +45,18 @@ public class StudentService {
 
     public Faculty getFaculty(int id) {
         return getStudent(id).getFaculty();
+    }
+
+    public Integer getCount() {
+        return studentRepo.getStudentsCount();
+    }
+
+    public double getAvgAge() {
+        return studentRepo.getAvgAge();
+    }
+
+    public List<Student> getLastFive() {
+       return studentRepo.getLastFive();
     }
 }
 
