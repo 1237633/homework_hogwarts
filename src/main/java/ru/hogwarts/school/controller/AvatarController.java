@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("avatar")
@@ -24,9 +26,9 @@ public class AvatarController {
     }
 
     @PostMapping(value = "{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<String> addAvatar(@PathVariable int id, @RequestParam MultipartFile avatar) throws IOException{
-            avatarService.uploadAvatar(id, avatar);
-            return ResponseEntity.ok().build();
+    public ResponseEntity<String> addAvatar(@PathVariable int id, @RequestParam MultipartFile avatar) throws IOException {
+        avatarService.uploadAvatar(id, avatar);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("{id}/db")
@@ -55,4 +57,10 @@ public class AvatarController {
             bis.transferTo(bos);
         }
     }
+
+    @GetMapping
+    public ResponseEntity<List<String>> getAvatars(@RequestParam int page, @RequestParam int size) {
+        return ResponseEntity.ok(avatarService.getAll(page, size).getContent().stream().map(avatar -> avatar.toString()).collect(Collectors.toList()));
+    }
+
 }
