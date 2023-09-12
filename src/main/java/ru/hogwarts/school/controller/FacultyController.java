@@ -75,4 +75,9 @@ public class FacultyController {
         }
         return ResponseEntity.notFound().build();
     }
+
+    @GetMapping("/longestname")
+    public ResponseEntity<String> getLongestName() {
+        return ResponseEntity.ok(facultyService.getLongestFAcultyName());
+    }
 }
