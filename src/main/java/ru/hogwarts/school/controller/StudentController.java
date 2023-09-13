@@ -94,7 +94,7 @@ public class StudentController {
     }
 
     @GetMapping("/sorted")
-    public ResponseEntity<List<Student>> getSorted() {
+    public ResponseEntity<List<String>> getSorted() {
         return ResponseEntity.ok(studentService.sort());
     }
 

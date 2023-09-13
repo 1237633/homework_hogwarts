@@ -10,7 +10,7 @@ import ru.hogwarts.school.repo.StudentRepo;
 
 
 import java.util.Collection;
-import java.util.Comparator;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -87,9 +87,13 @@ public class StudentService {
        return studentRepo.getLastFive();
     }
 
-    public List<Student> sort() {
+    public List<String> sort() {
         List<Student> students = studentRepo.findAll();
-        List<Student> sorted = students.stream().sorted(Comparator.comparing(Student::getName)).collect(Collectors.toList());
+        List<String> sorted = students.stream()
+                .map(e -> e.getName().toUpperCase())
+                .filter(e -> e.startsWith("A"))
+                .sorted()
+                .collect(Collectors.toList());
         return sorted;
     }
 
