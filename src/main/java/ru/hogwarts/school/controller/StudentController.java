@@ -92,4 +92,15 @@ public class StudentController {
     public ResponseEntity<List<Student>> getLastFive() {
         return ResponseEntity.ok(studentService.getLastFive());
     }
+
+    @GetMapping("/sorted")
+    public ResponseEntity<List<String>> getSorted() {
+        return ResponseEntity.ok(studentService.sort());
+    }
+
+    @GetMapping("/avgAge")
+    public ResponseEntity<Double> getAvg() {
+        return ResponseEntity.ok(studentService.getAvgAgeStream());
+    }
+
 }

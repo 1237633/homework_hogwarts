@@ -8,16 +8,18 @@ import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repo.StudentRepo;
 
-import java.util.Arrays;
+
 import java.util.Collection;
+
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
 public class StudentService {
     final
     private StudentRepo studentRepo;
-    private Logger logger;
+    private final Logger logger;
     private String currMethod;
 
     public StudentService(StudentRepo studentRepo) {
@@ -83,6 +85,21 @@ public class StudentService {
         currMethod = Thread.currentThread().getStackTrace()[1].getMethodName();
         logger.debug("Executing method {}", currMethod);
        return studentRepo.getLastFive();
+    }
+
+    public List<String> sort() {
+        List<Student> students = studentRepo.findAll();
+        List<String> sorted = students.stream()
+                .map(e -> e.getName().toUpperCase())
+                .filter(e -> e.startsWith("A"))
+                .sorted()
+                .collect(Collectors.toList());
+        return sorted;
+    }
+
+    public double getAvgAgeStream() {
+        List<Student> students = studentRepo.findAll();
+        return students.stream().mapToInt(Student::getAge).average().getAsDouble();
     }
 }
 
