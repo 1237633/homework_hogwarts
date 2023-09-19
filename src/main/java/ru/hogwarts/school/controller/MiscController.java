@@ -22,4 +22,13 @@ public class MiscController {
         return ResponseEntity.ok(miscService.lesson45Step4());
     }
 
+    @GetMapping("/4-6-1")
+    public void threadedSout(){
+        miscService.lesson46step1();
+    }
+
+    @GetMapping("/4-6-2")
+    public void threadedSynchronizedSout(){
+        miscService.lesson46step2();
+    }
 }
