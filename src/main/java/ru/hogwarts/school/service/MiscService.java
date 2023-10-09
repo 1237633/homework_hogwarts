@@ -10,6 +10,7 @@ import java.util.stream.Stream;
 
 @Service
 public class MiscService {
+    private final int useless = 11111;
 
     private final StudentRepo studentRepo;
 
