@@ -39,6 +39,14 @@ FacultyRepo facultyRepo;
     }
 
     public Collection<Faculty> getByColor(String color) {
-        return facultyRepo.findByColorLike(color);
+        return facultyRepo.findByColorContainingIgnoreCase(color);
+    }
+
+    public Collection<Faculty> getByColorOrName(String color, String name) {
+        return facultyRepo.findByColorIgnoreCaseOrNameIgnoreCase(color, name);
+    }
+
+    public Collection<Student> getStudents(int id) {
+       return getFaculty(id).getStudents();
     }
 }
